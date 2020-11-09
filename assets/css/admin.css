@@ -1,0 +1,11 @@
+#results {
+	background: #eaeaea;
+	background: rgba(0,0,0,.07);
+	margin-top: 20px;
+	padding: 20px;
+}
+
+span.message {
+	display: inline-block;
+	width: 100%;
+}
