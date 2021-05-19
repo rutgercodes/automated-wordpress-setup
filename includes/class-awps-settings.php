@@ -19,7 +19,6 @@ if ( !class_exists( 'Automated_WordPress_Setup_Settings' ) ) {
 			
 			// Load the hooks
 			// add_action( 'admin_init', array( $this, 'load_admin_hooks' ) );
-            // add_action( 'woocommerce_update_options_shipping', array( $this, 'update_shipping_settings' ), 10 , 1);
 			add_action( 'admin_enqueue_scripts', array( $this, 'load_admin_scripts' ) );
 			add_action( 'admin_menu', array( $this, 'load_admin_page' ) );
 		}
@@ -65,14 +64,7 @@ if ( !class_exists( 'Automated_WordPress_Setup_Settings' ) ) {
 		
 		public function automated_setup_page() {
 
-			$default_plugins = array(
-				'contact-form-7',
-				'disable-comments',
-				'flamingo',
-				'safe-svg',
-				'woocommerce',
-				'wordpress-seo'
-			);
+			$defaults = parse_ini_file( Automated_WordPress_Setup::$plugin_path . 'defaults.ini' );
 
 			echo '<div class="wrap">';
 			echo '<h1>Install plugins & theme</h1>';
@@ -80,12 +72,12 @@ if ( !class_exists( 'Automated_WordPress_Setup_Settings' ) ) {
 			echo '<h2>Themes</h2>';
 			echo '<tr>
 			<th scope="row"><label for="theme">Main theme</label></th>
-			<td><input name="theme" type="text" id="theme" value="https://wordpress.noisehq.nl/themes/Impreza.zip" class="regular-text">';
+			<td><input name="theme" type="text" id="theme" value="'. $defaults['theme']['main'] .'" class="regular-text">';
 			echo '<p class="description" id="theme-description">Enter the url to a .zip file.</p>';
 			echo '</td></tr>';
 			echo '<tr>
 			<th scope="row"><label for="child-theme">Child theme</label></th>
-			<td><input name="child-theme" type="text" id="child-theme" value="https://wordpress.noisehq.nl/themes/Impreza-child.zip" class="regular-text">';
+			<td><input name="child-theme" type="text" id="child-theme" value="'. $defaults['theme']['child'] .'" class="regular-text">';
 			echo '<p class="description" id="child-theme-description">Enter the url to a .zip file.</p>';	
 			echo '</td></tr>';
 			echo '</tbody></table>';
@@ -93,7 +85,7 @@ if ( !class_exists( 'Automated_WordPress_Setup_Settings' ) ) {
 			echo '<table class="form-table" role="presentation"><tbody>';
 			echo '<tr>
 			<th scope="row"><label for="plugins">Plugin list</label></th>
-			<td><textarea name="plugins" id="plugins" value="https://wordpress.noisehq.nl/themes/Impreza.zip" class="regular-text" rows="10">'.join("&#13", $default_plugins).'</textarea>';
+			<td><textarea name="plugins" id="plugins" class="regular-text" rows="10">'.join("&#13", $defaults['plugins']).'</textarea>';
 			echo '<p class="description" id="plugins-description">Enter the plugins slugs. One per line.</p>';
 			echo '</td></tr>';
 			echo '</tbody></table>';
