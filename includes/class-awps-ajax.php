@@ -33,7 +33,6 @@ if ( !class_exists( 'Automated_WordPress_Setup_Ajax' ) ) {
 		public function install_plugin() {
 
 			include_once( 'class-awps-plugins.php' );
-			$this->settings = new Automated_WordPress_Setup_Plugins();			
 
 			$slug = $_POST['plugin'];
 
@@ -107,7 +106,6 @@ if ( !class_exists( 'Automated_WordPress_Setup_Ajax' ) ) {
 		public static function install_theme() {
 
 			include_once( 'class-awps-themes.php' );
-			$this->settings = new Automated_WordPress_Setup_Themes();	
 
 			$theme = $_POST['theme'];
 			$activate = $_POST['activate'];
@@ -120,13 +118,38 @@ if ( !class_exists( 'Automated_WordPress_Setup_Ajax' ) ) {
 				wp_die();
 			}
 
+			$theme_info = Automated_WordPress_Setup_Themes::get_theme_info($theme);
+
+			// echo "theme slug: " . print_r( $theme_info, true );
+			// echo "checking slug: " . Automated_WordPress_Setup_Themes::is_theme_installed($theme_info['slug']);
+			
+			// Stop if theme is not valid
+			if( !$theme_info['valid'] ) {
+				echo json_encode( [
+					"error" => true,
+					"message" => "Theme ($theme) is not a valid theme zip."
+				]);
+				wp_die(); // this is required to terminate immediately and return a proper response
+			}
+
+			// Stop if theme already exists
+			if( Automated_WordPress_Setup_Themes::is_theme_installed($theme_info['data']['slug']) ) {
+				echo json_encode( [
+					"error" => true,
+					"message" => "Theme ($theme) already installed",
+					"data" => $theme_info
+				]);
+				wp_die(); // this is required to terminate immediately and return a proper response
+			}
+
 			$installer = Automated_WordPress_Setup_Themes::install_theme( $theme );
 
 			if ($installer['installed'] !== true) {
-				echo json_encode( array(
+				echo json_encode( [
 					"error" => true,
 					"message" => "Install process failed ('$theme').",
-				));
+					"data" => $installer['result']
+				]);
 				wp_die(); // this is required to terminate immediately and return a proper response
 			}
 
@@ -137,10 +160,10 @@ if ( !class_exists( 'Automated_WordPress_Setup_Ajax' ) ) {
 				$message = "Installed & activated ".$installer["result"]["destination_name"];
 			}
 			
-			echo json_encode( array(
+			echo json_encode( [
 				"error" => false,
 				"message" => "Installed $theme"
-			));
+			]);
 			wp_die();
 
 		}
