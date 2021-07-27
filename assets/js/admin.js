@@ -68,8 +68,9 @@ console.log("Settings init");
 
 				const activate = themes.child ? type == 'child' : type == 'main'
 				const installResult = await installTheme(theme, activate, logId);
+				console.log( "results", installResult );
 				
-				logMessage(logId, installResult.message )
+				logMessage(logId, installResult.message );
 
 			}
 
@@ -103,7 +104,6 @@ console.log("Settings init");
 			var data = { 'action': plugin_prefix + 'install_theme', theme: theme, activate: activate }
 	
 			result = await $.post(ajaxurl, data);
-			console.log( result );
 			return JSON.parse( result );
 
 		} catch(e) {

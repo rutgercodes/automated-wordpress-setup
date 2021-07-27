@@ -80,6 +80,11 @@ if ( !class_exists( 'Automated_WordPress_Setup_Settings' ) ) {
 			<td><input name="child-theme" type="text" id="child-theme" value="'. $defaults['theme']['child'] .'" class="regular-text">';
 			echo '<p class="description" id="child-theme-description">Enter the url to a .zip file.</p>';	
 			echo '</td></tr>';
+			echo '<tr>
+			<th scope="row"><label for="child-theme">Overwrite child theme name</label></th>
+			<td><input name="child-theme-name" type="text" id="child-theme-name" class="regular-text">';
+			echo '<p class="description" id="child-theme-description">Enter name to ovewrite the child theme name. Leave empty to use name from theme file.</p>';	
+			echo '</td></tr>';
 			echo '</tbody></table>';
 			echo '<h2>Plugins</h2>';
 			echo '<table class="form-table" role="presentation"><tbody>';
