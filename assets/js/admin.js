@@ -22,12 +22,14 @@ console.log("Settings init");
 				main: $("#theme").val(),
 				child: $("#child-theme").val()
 			}
-			const plugins = getTexareaAsArray("#plugins");
+			let plugins = getTexareaAsArray("#plugins");
 
-			if(document.getElementById('install_woocommerce').checked) {
+			if( $('#install_woocommerce').prop('checked') ) {
 				plugins.push('woocommerce');
-				plugins.concat( getTexareaAsArray("#woocommerce") )
+				plugins = plugins.concat( getTexareaAsArray("#woocommerce_plugins") );
 			}
+
+			console.log("full plugin list", plugins);
 	
 			await installProcess(themes, plugins, "results");
 			return $installBtn.prop('disabled', false)
