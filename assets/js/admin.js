@@ -4,6 +4,11 @@ console.log("Settings init");
 
 	$installBtn = $("#install");
 	$installBtn.prop('disabled', false);
+
+	$('#install_woocommerce').change(function() {
+		console.log("toggle woocommerce");
+		$('.woocommerce-only').toggle(this.checked).toggleClass('is-open', this.checked);
+	});
 	
 	$installBtn.click(async function(e) {
 		e.preventDefault();
@@ -18,6 +23,11 @@ console.log("Settings init");
 				child: $("#child-theme").val()
 			}
 			const plugins = getTexareaAsArray("#plugins");
+
+			if(document.getElementById('install_woocommerce').checked) {
+				plugins.push('woocommerce');
+				plugins.concat( getTexareaAsArray("#woocommerce") )
+			}
 	
 			await installProcess(themes, plugins, "results");
 			return $installBtn.prop('disabled', false)

@@ -93,6 +93,17 @@ if ( !class_exists( 'Automated_WordPress_Setup_Settings' ) ) {
 			<td><textarea name="plugins" id="plugins" class="regular-text" rows="10">'.join("&#13", $defaults['plugins']).'</textarea>';
 			echo '<p class="description" id="plugins-description">Enter the plugins slugs. One per line.</p>';
 			echo '</td></tr>';
+			echo '<tr>
+			<th scope="row">WooCommerce</th>
+			<td> <fieldset><legend class="screen-reader-text"><span>WooCommerce</span></legend><label for="install_woocommerce">';
+			echo '<input name="install_woocommerce" type="checkbox" id="install_woocommerce" value="1">
+			Install WooCommerce</label>';
+			echo '</fieldset></td></tr>';
+			echo '<tr class="hide-if-js woocommerce-only">
+			<th scope="row"><label for="woocommerce_plugins">WooCommerce Plugins</label></th>
+			<td><textarea name="woocommerce_plugins" id="woocommerce_plugins" class="regular-text" rows="10">'.join("&#13", $defaults['woocommerce']).'</textarea>';
+			echo '<p class="description" id="woocommerce_plugins-description">Enter the plugins slugs. One per line.</p>';
+			echo '</td></tr>';
 			echo '</tbody></table>';
 			echo '<input type="submit" name="install" id="install" class="button button-primary" value="Install" disabled="disabled">';
 			echo '<div id="results"></div>';
